@@ -3,7 +3,7 @@ import { getProductos } from "../services/AllProductos";
 import { carritoClient } from "../services/carritoservice";
 
 interface Producto {
-  codProducto: string; // CORRECTO
+  codProducto: string;
   nombre: string;
   descripcion: string;
   imagen?: string;
@@ -22,8 +22,6 @@ export default function Catalogo() {
       try {
         const data = await getProductos();
         if (!Array.isArray(data)) throw new Error("Los productos no están en formato de lista");
-
-        // Solo usamos codProducto como identificador
         setProductos(data);
       } catch (err: any) {
         console.error("Error al cargar productos:", err);
@@ -37,23 +35,13 @@ export default function Catalogo() {
   }, []);
 
   const handleAgregarAlCarrito = async (producto: Producto) => {
-    if (!producto.codProducto) {
-      alert("❌ Producto inválido");
-      return;
-    }
-    if (producto.stock <= 0) {
-      alert("❌ No hay stock disponible para este producto");
-      return;
-    }
+    if (!producto.codProducto || producto.stock <= 0) return;
 
     try {
       setAgregando(producto.codProducto);
-      console.log("Agregando al carrito:", producto.codProducto);
       await carritoClient.agregarProducto(String(producto.codProducto), 1);
-      alert(`✅ ${producto.nombre} agregado al carrito`);
     } catch (err: any) {
       console.error("Error agregando al carrito:", err);
-      alert(err.response?.data?.message || err.message || "Error al agregar al carrito");
     } finally {
       setAgregando(null);
     }
@@ -69,35 +57,49 @@ export default function Catalogo() {
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {productos.map((producto) => (
           <div className="col" key={producto.codProducto}>
-            <div className="card h-100 shadow-sm p-3 d-flex flex-column">
+            <div className="card h-100 shadow-sm border-0 overflow-hidden transition hover-scale">
               {producto.imagen ? (
-                <img src={producto.imagen} className="card-img-top" alt={producto.nombre} />
+                <img
+                  src={producto.imagen}
+                  className="card-img-top"
+                  alt={producto.nombre}
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
               ) : (
-                <div className="text-center p-5 bg-light">Sin imagen</div>
+                <div
+                  className="text-center bg-light"
+                  style={{ height: "200px", display: "flex", alignItems: "center", justifyContent: "center" }}
+                >
+                  Sin imagen
+                </div>
               )}
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title">{producto.nombre}</h5>
-                <p className="card-text">{producto.descripcion}</p>
-                <p className="fw-bold">Precio: ${producto.precioUnitario}</p>
-                <p className={`text-muted ${producto.stock === 0 ? "text-danger" : ""}`}>
-                  Stock: {producto.stock}
+                <p className="card-text text-truncate">{producto.descripcion}</p>
+                <p className="fw-bold mb-1">Precio: ${producto.precioUnitario.toLocaleString()}</p>
+                <p className={`mb-3 ${producto.stock === 0 ? "text-danger" : "text-muted"}`}>
+                  {producto.stock === 0 ? "Agotado" : `Stock: ${producto.stock}`}
                 </p>
                 <button
-                  className="btn btn-primary mt-auto"
+                  className={`btn ${producto.stock === 0 ? "btn-secondary" : "btn-primary"} mt-auto`}
                   onClick={() => handleAgregarAlCarrito(producto)}
                   disabled={agregando === producto.codProducto || producto.stock <= 0}
                 >
-                  {agregando === producto.codProducto
-                    ? "Agregando..."
-                    : producto.stock > 0
-                      ? "Agregar al carrito"
-                      : "Agotado"}
+                  {agregando === producto.codProducto ? "Agregando..." : "Agregar al carrito"}
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
+      <style>
+        {`
+          .hover-scale:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease-in-out;
+          }
+        `}
+      </style>
     </div>
   );
 }

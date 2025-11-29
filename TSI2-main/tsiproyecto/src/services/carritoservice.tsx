@@ -15,11 +15,10 @@ const getCodUsuario = () => {
 };
 
 export const carritoClient = {
+  
   agregarProducto: async (codProducto: string, cantidad: number) => {
     const token = getToken();
     const cod_usuario = getCodUsuario();
-
-    if (!codProducto || cantidad <= 0) throw new Error("Producto o cantidad inválidos");
 
     const response = await axios.post(
       `${API_URL}/agregar`,
@@ -34,11 +33,30 @@ export const carritoClient = {
     const token = getToken();
     const cod_usuario = getCodUsuario();
 
-    const response = await axios.get(`${API_URL}/usuario/${cod_usuario}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.get(
+      `${API_URL}/usuario/${cod_usuario}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-    return response.data;
+    const payload = response.data?.data;
+    if (!payload) return { items: [], total: 0 };
+
+    const itemsOriginales = payload.items || [];
+
+    const items = itemsOriginales.map((item: any) => ({
+      cod_carrito: item.cod_carrito,
+      cantidad: item.cantidad,
+      producto: {
+        nombre: item.producto?.nombre ?? "Producto",
+        precio: item.precio_unitario ?? 0,
+        stock: item.producto?.stock ?? 0,
+      },
+    }));
+
+    return {
+      items,
+      total: payload.total || 0,
+    };
   },
 
   actualizarCantidad: async (cod_carrito: number, cantidad: number) => {
@@ -56,23 +74,24 @@ export const carritoClient = {
   eliminarProducto: async (cod_carrito: number) => {
     const token = getToken();
 
-    const response = await axios.delete(`${API_URL}/eliminar/${cod_carrito}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    return response.data;
-  },
-
-  vaciarCarrito: async () => {
-    const token = getToken();
-    const cod_usuario = getCodUsuario();
-
-    const response = await axios.post(
-      `${API_URL}/vaciar`,
-      { cod_usuario },
+    const response = await axios.delete(
+      `${API_URL}/eliminar/${cod_carrito}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
     return response.data;
-  }
+  },
+
+  
+  vaciarCarrito: async () => {
+    const token = getToken();
+    const cod_usuario = getCodUsuario();
+
+    const response = await axios.delete(`${API_URL}/vaciar`, {
+      headers: { Authorization: `Bearer ${token}` },
+      data: { cod_usuario }, 
+    });
+
+    return response.data;
+  },
 };

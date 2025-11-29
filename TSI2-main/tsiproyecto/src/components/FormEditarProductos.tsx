@@ -37,7 +37,7 @@ const [errores, setErrores] = useState({
           cod_categoria: data.cod_categoria || 0,
         });
       } catch (error) {
-        console.error("❌ Error al cargar producto:", error);
+        console.error(" Error al cargar producto:", error);
       }
     };
     cargarProducto();
@@ -89,10 +89,10 @@ const [errores, setErrores] = useState({
 
   try {
     await actualizarProducto(codProducto!, producto);
-    console.log("✅ Producto actualizado");
+    console.log(" Producto actualizado");
     navigate("/admin/productos");
   } catch (error) {
-    console.error("❌ Error al actualizar producto:", error);
+    console.error(" Error al actualizar producto:", error);
   }
 };
 

@@ -1,39 +1,82 @@
+import { useNavigate } from "react-router-dom";
+
 export default function VistaAdmin() {
+  const navigate = useNavigate();
+
   return (
     <div className="container py-5">
-      <h1 className="mb-4">Bienvenido, Administrador 👋</h1>
-      <p className="lead">Aquí tienes acceso rápido a las funciones principales del sistema.</p>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h1>Acciones de Administrador</h1>
+      </div>
+
+      
 
       <div className="row g-4 mt-4">
+
+        {/* Usuarios */}
         <div className="col-md-4">
           <div className="card border-primary shadow-sm">
             <div className="card-body">
               <h5 className="card-title">Usuarios</h5>
               <p className="card-text">Gestiona cuentas de clientes y administradores.</p>
-              <a href="/admin/usuarios" className="btn btn-primary">Ver usuarios</a>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/admin/usuarios")}
+              >
+                Ver usuarios
+              </button>
             </div>
           </div>
         </div>
 
+        {/* Productos */}
         <div className="col-md-4">
           <div className="card border-success shadow-sm">
             <div className="card-body">
               <h5 className="card-title">Productos</h5>
               <p className="card-text">Agrega, edita o elimina productos del catálogo.</p>
-              <a href="/admin/productos" className="btn btn-success">Ver productos</a>
+              <div className="d-flex flex-column gap-2">
+                <button
+                  className="btn btn-success"
+                  onClick={() => navigate("/admin/productos")}
+                >
+                  Ver productos
+                </button>
+                <button
+                  className="btn btn-outline-success btn-sm"
+                  onClick={() => navigate("/admin/productos/crear")}
+                >
+                  Crear Producto
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Ajustes */}
         <div className="col-md-4">
           <div className="card border-warning shadow-sm">
             <div className="card-body">
-              <h5 className="card-title">Reportes</h5>
-              <p className="card-text">Consulta estadísticas y actividad reciente.</p>
-              <a href="/admin/reportes" className="btn btn-warning">Ver reportes</a>
+              <h5 className="card-title">Ajustes</h5>
+              <p className="card-text">Gestiona ajustes de stock positivos y negativos.</p>
+              <div className="d-flex flex-column gap-2">
+                <button
+                  className="btn btn-warning"
+                  onClick={() => navigate("/admin/ajustes")}
+                >
+                  Ver ajustes
+                </button>
+                <button
+                  className="btn btn-outline-warning btn-sm"
+                  onClick={() => navigate("/admin/ajustes/crear")}
+                >
+                  Crear Ajuste
+                </button>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

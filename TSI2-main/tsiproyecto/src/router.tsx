@@ -11,8 +11,8 @@ import VistaProductosAdmin from "./components/AdminProductos";
 import FormEditarProducto from "./components/FormEditarProductos";
 import CrearProducto from "./components/CrearProducto";
 import Carrito from "./components/Carrito";
-
-// 👉 IMPORTA LA VISTA DEL CARRITO
+import CrearAjuste from "./components/Ajuste";
+import VistaAjustes from "./components/ListaAjustes";
 
 
 export const router = createBrowserRouter([
@@ -45,7 +45,7 @@ export const router = createBrowserRouter([
         element: <Productos />,
       },
 
-      // 👉 RUTA DEL CARRITO
+     
       {
         path: "carrito",
         element: <Carrito />,
@@ -76,6 +76,14 @@ export const router = createBrowserRouter([
         path: "productos/crear",
         element: <CrearProducto />,
       },
+      {
+        path: "ajustes/crear",
+        element: <CrearAjuste/>,
+      },
+      {
+        path: "ajustes",
+        element: <VistaAjustes/>,
+      }
     ],
   },
 ]);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getProductos } from "../services/AllProductos"; // función que obtiene productos desde el backend
-import { deleteProducto } from "../services/BorrarProductos"; // función que elimina un producto
-import { useNavigate } from "react-router-dom"; // para redireccionar al editar
+import { getProductos } from "../services/AllProductos";
+import { deleteProducto } from "../services/BorrarProductos"; 
+import { useNavigate } from "react-router-dom";
 
 // Interfaz para tipar los productos
 interface Producto {

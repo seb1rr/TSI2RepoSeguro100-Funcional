@@ -46,13 +46,13 @@ const CrearProducto = () => {
 
     if (Object.keys(nuevosErrores).length > 0) {
       setErrores(nuevosErrores);
-      setMensaje("❌ Corrige los errores antes de continuar");
+      setMensaje(" Corrige los errores antes de continuar");
       return;
     }
 
     try {
       const resultado = await crearProducto(form);
-      setMensaje("✅ Producto creado correctamente");
+      setMensaje(" Producto creado correctamente");
       console.log("Producto creado:", resultado);
 
       // Reinicia el formulario
@@ -66,7 +66,7 @@ const CrearProducto = () => {
       });
       setErrores({});
     } catch (error: any) {
-      setMensaje(`❌ ${error.message}`);
+      setMensaje(` ${error.message}`);
     }
   };
 

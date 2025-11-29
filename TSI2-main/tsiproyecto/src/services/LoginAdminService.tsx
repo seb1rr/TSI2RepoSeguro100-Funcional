@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 export async function loginAdmin(cod_usuario: string, contraseña: string) {
@@ -9,6 +8,7 @@ export async function loginAdmin(cod_usuario: string, contraseña: string) {
     });
 
     const { token, tipo_usuario } = response.data;
+
     return { token, tipo_usuario };
   } catch (error: any) {
     if (error.response?.data?.error) {

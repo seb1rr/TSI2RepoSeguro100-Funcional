@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductos } from "../services/AllProductos";
+import { carritoClient } from "../services/carritoservice";
 
 export default function ProductosPorCategoria() {
   const { cod_categoria } = useParams();
   const [productos, setProductos] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -23,6 +25,25 @@ export default function ProductosPorCategoria() {
     fetchProductos();
   }, [cod_categoria]);
 
+  const handleAgregar = async (producto: any) => {
+    if (producto.stock <= 0) {
+      alert("No hay stock disponible");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await carritoClient.agregarProducto(producto.codProducto, 1);
+
+      alert(` ${producto.nombre} agregado al carrito`);
+    } catch (err: any) {
+      console.error(err);
+      alert(err.response?.data?.message || "Error al agregar al carrito");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
@@ -30,7 +51,9 @@ export default function ProductosPorCategoria() {
       <h2 className="mb-2">Productos de la categoría {cod_categoria}</h2>
 
       {productos.length === 0 ? (
-        <div className="alert alert-info">No hay productos en esta categoría.</div>
+        <div className="alert alert-info">
+          No hay productos en esta categoría.
+        </div>
       ) : (
         <div className="row">
           {productos.map((producto: any) => (
@@ -48,8 +71,15 @@ export default function ProductosPorCategoria() {
                     ${producto.precioUnitario.toLocaleString("es-CL")}
                   </p>
                 </div>
+
                 <div className="card-footer text-center">
-                  <button className="btn btn-outline-success">Agregar al carrito</button>
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={() => handleAgregar(producto)}
+                    disabled={loading}
+                  >
+                    {loading ? "Agregando..." : "Agregar al carrito"}
+                  </button>
                 </div>
               </div>
             </div>

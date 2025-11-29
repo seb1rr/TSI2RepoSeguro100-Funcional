@@ -15,39 +15,28 @@ export default function LoginAdmin() {
     try {
       const { token, tipo_usuario } = await loginAdmin(codUsuario, contrasena);
 
-      if (!token || typeof token !== "string") {
-        throw new Error("Token inválido");
-      }
+      if (!token || typeof token !== "string") throw new Error("Token inválido");
 
+      // Guardar token y cod_usuario en localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("tipo_usuario", tipo_usuario.toString());
+      localStorage.setItem("cod_usuario", codUsuario); 
 
-     
       if (tipo_usuario === 1) {
         navigate("/admin/dashboard");
       } else {
         throw new Error("Acceso denegado: no eres administrador");
       }
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error desconocido");
-      }
+    } catch (err: any) {
+      setError(err.message || "Error desconocido");
     }
   };
-
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
       <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="text-center mb-4">
-          <img
-            src="/images/apple.png"
-            alt="Logo"
-            className="img-fluid"
-            style={{ maxHeight: "80px" }}
-          />
+          <img src="/images/apple.png" alt="Logo" className="img-fluid" style={{ maxHeight: "80px" }} />
           <h5 className="mt-3 fw-semibold">Accede como Administrador</h5>
         </div>
 
@@ -80,9 +69,7 @@ export default function LoginAdmin() {
 
           {error && <div className="alert alert-danger">{error}</div>}
 
-          <button type="submit" className="btn btn-primary w-100 mb-2">
-            Ingresar
-          </button>
+          <button type="submit" className="btn btn-primary w-100 mb-2">Ingresar</button>
         </form>
       </div>
     </div>
