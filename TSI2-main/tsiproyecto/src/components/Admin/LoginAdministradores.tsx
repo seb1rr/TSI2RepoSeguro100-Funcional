@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginAdmin } from "../services/LoginAdminService";
+import { loginAdmin } from "../../services/LoginAdminService";
 
 export default function LoginAdmin() {
   const [codUsuario, setCodUsuario] = useState("");

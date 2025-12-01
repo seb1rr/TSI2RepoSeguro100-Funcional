@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ajusteClient } from "../services/AjusteServices";
+import { ajusteClient } from "../../services/AjusteServices";
+
 
 interface Ajuste {
   codAjuste: string;

@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductoPorCodigo, actualizarProducto } from "../services/EditarProductos";
+import { actualizarProducto, getProductoPorCodigo } from "../../services/EditarProductos";
+
 
 export default function FormularioEditarProducto() {
   const { codProducto } = useParams();

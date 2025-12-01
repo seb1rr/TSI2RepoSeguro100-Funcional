@@ -53,35 +53,45 @@ export default function Catalogo() {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Catálogo de Productos</h2>
+      <h2 className="text-center mb-4 fw-bold">Catálogo de Productos</h2>
+
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {productos.map((producto) => (
           <div className="col" key={producto.codProducto}>
-            <div className="card h-100 shadow-sm border-0 overflow-hidden transition hover-scale">
+            <div className="card h-100 shadow-lg border-0 rounded-3 producto-card">
+
+              {/* Imagen */}
               {producto.imagen ? (
-                <img
-                  src={producto.imagen}
-                  className="card-img-top"
-                  alt={producto.nombre}
-                  style={{ height: "200px", objectFit: "cover" }}
-                />
+                <div className="img-container">
+                  <img
+                    src={`/images/${producto.imagen}`}
+                    className="card-img-top"
+                    alt={producto.nombre}
+                  />
+                </div>
               ) : (
-                <div
-                  className="text-center bg-light"
-                  style={{ height: "200px", display: "flex", alignItems: "center", justifyContent: "center" }}
-                >
+                <div className="no-image d-flex align-items-center justify-content-center">
                   Sin imagen
                 </div>
               )}
+
               <div className="card-body d-flex flex-column">
-                <h5 className="card-title">{producto.nombre}</h5>
-                <p className="card-text text-truncate">{producto.descripcion}</p>
-                <p className="fw-bold mb-1">Precio: ${producto.precioUnitario.toLocaleString()}</p>
-                <p className={`mb-3 ${producto.stock === 0 ? "text-danger" : "text-muted"}`}>
-                  {producto.stock === 0 ? "Agotado" : `Stock: ${producto.stock}`}
+                <h5 className="card-title fw-bold">{producto.nombre}</h5>
+
+                <p className="card-text text-muted text-truncate">{producto.descripcion}</p>
+
+                <p className="fw-semibold">
+                  Precio: <span className="text-success">${producto.precioUnitario.toLocaleString()}</span>
                 </p>
+
+                <p className={producto.stock === 0 ? "text-danger" : "text-secondary"}>
+                  {producto.stock === 0 ? "Agotado" : `Stock disponible: ${producto.stock}`}
+                </p>
+
                 <button
-                  className={`btn ${producto.stock === 0 ? "btn-secondary" : "btn-primary"} mt-auto`}
+                  className={`btn btn-lg mt-auto ${
+                    producto.stock === 0 ? "btn-secondary" : "btn-primary"
+                  }`}
                   onClick={() => handleAgregarAlCarrito(producto)}
                   disabled={agregando === producto.codProducto || producto.stock <= 0}
                 >
@@ -92,11 +102,41 @@ export default function Catalogo() {
           </div>
         ))}
       </div>
+
+      {/* Estilos mejorados */}
       <style>
         {`
-          .hover-scale:hover {
-            transform: scale(1.02);
-            transition: transform 0.2s ease-in-out;
+          .producto-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+          }
+
+          .producto-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+          }
+
+          .img-container {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+          }
+
+          .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #f8f9fa;
+            padding: 10px;
+          }
+
+          .no-image {
+            height: 220px;
+            background: #efefef;
+            border-radius: 8px 8px 0 0;
+            color: #888;
+            font-size: 18px;
           }
         `}
       </style>

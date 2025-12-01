@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { ajusteClient } from "../services/AjusteServices";
-import { getProductos } from "../services/AllProductos";
+import { getProductos } from "../../services/AllProductos";
+import { ajusteClient } from "../../services/AjusteServices";
+
 
 interface Producto {
   codProducto: string;

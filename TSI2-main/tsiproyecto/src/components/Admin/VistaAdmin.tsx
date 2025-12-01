@@ -9,22 +9,40 @@ export default function VistaAdmin() {
         <h1>Acciones de Administrador</h1>
       </div>
 
-      
-
       <div className="row g-4 mt-4">
 
-        {/* Usuarios */}
+        {/* Envíos */}
         <div className="col-md-4">
-          <div className="card border-primary shadow-sm">
+          <div className="card border-info shadow-sm">
             <div className="card-body">
-              <h5 className="card-title">Usuarios</h5>
-              <p className="card-text">Gestiona cuentas de clientes y administradores.</p>
-              <button
-                className="btn btn-primary"
-                onClick={() => navigate("/admin/usuarios")}
-              >
-                Ver usuarios
-              </button>
+              <h5 className="card-title">Envíos</h5>
+              <p className="card-text">Registra envíos y entregas de pedidos.</p>
+              <div className="d-flex flex-column gap-2">
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/admin/envios/registrar")}
+                >
+                  Registrar Envío
+                </button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/admin/envios/entregar")}
+                >
+                  Registrar Entrega
+                </button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/admin/pedidos/entregados")}
+                >
+                  Ver Pedidos Entregados
+                </button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/admin/pedidos/detalle")}
+                >
+                  Ver Detalle Pedido
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -40,10 +58,10 @@ export default function VistaAdmin() {
                   className="btn btn-success"
                   onClick={() => navigate("/admin/productos")}
                 >
-                  Ver productos
+                  Ver Productos
                 </button>
                 <button
-                  className="btn btn-outline-success btn-sm"
+                  className="btn btn-success"
                   onClick={() => navigate("/admin/productos/crear")}
                 >
                   Crear Producto
@@ -64,10 +82,10 @@ export default function VistaAdmin() {
                   className="btn btn-warning"
                   onClick={() => navigate("/admin/ajustes")}
                 >
-                  Ver ajustes
+                  Ver Ajustes
                 </button>
                 <button
-                  className="btn btn-outline-warning btn-sm"
+                  className="btn btn-warning"
                   onClick={() => navigate("/admin/ajustes/crear")}
                 >
                   Crear Ajuste

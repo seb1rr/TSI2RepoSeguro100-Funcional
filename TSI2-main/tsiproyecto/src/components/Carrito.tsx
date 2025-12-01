@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { carritoClient } from "../services/carritoservice";
+import axios from "axios";
 
 const Carrito = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -45,6 +46,41 @@ const Carrito = () => {
     }
   };
 
+  // -----------------------------
+  // BOTÓN PARA CREAR PEDIDO
+  // -----------------------------
+  const crearPedido = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const dataPedido = {
+        fecha: new Date(),
+        estado: "Pendiente",
+        total: total,
+        empresa_envio: null,
+        fecha_envio: null,
+        fecha_entrega: null,
+        cantidad: items.reduce((acc, p) => acc + p.cantidad, 0),
+        fecha_pedido: new Date(),
+      };
+
+      const res = await axios.post(
+        "http://localhost:3000/api/pedido/crear",
+        dataPedido,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      alert(
+        `Pedido creado:\nCódigo: ${res.data.codigo_generado}\nComprobante: ${res.data.comprobante_generado}`
+      );
+    } catch (error) {
+      console.error("Error al crear pedido:", error);
+      alert("Error al crear pedido. Revisa consola.");
+    }
+  };
+
   useEffect(() => {
     cargarCarrito();
   }, []);
@@ -83,11 +119,17 @@ const Carrito = () => {
                         className="form-control form-control-sm"
                         value={item.cantidad}
                         onChange={(e) =>
-                          actualizarCantidad(item.cod_carrito, Number(e.target.value))
+                          actualizarCantidad(
+                            item.cod_carrito,
+                            Number(e.target.value)
+                          )
                         }
                       />
                     </td>
-                    <td>${(item.producto?.precio * item.cantidad).toLocaleString()}</td>
+                    <td>
+                      $
+                      {(item.producto?.precio * item.cantidad).toLocaleString()}
+                    </td>
                     <td>
                       <button
                         className="btn btn-outline-danger btn-sm"
@@ -104,12 +146,17 @@ const Carrito = () => {
 
           <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
             <h4 className="mb-2">Total: ${total.toLocaleString()}</h4>
-            <button
-              className="btn btn-warning"
-              onClick={vaciar}
-            >
-              Vaciar Carrito
-            </button>
+
+            <div className="d-flex gap-2">
+              <button className="btn btn-warning" onClick={vaciar}>
+                Vaciar Carrito
+              </button>
+
+              {/* 👉 NUEVO BOTÓN AQUÍ 👇 */}
+              <button className="btn btn-success" onClick={crearPedido}>
+                Crear Pedido
+              </button>
+            </div>
           </div>
         </>
       )}

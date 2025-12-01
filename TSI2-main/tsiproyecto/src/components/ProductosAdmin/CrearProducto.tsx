@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { crearProducto } from "../services/CrearProducto";
+import { crearProducto } from "../../services/CrearProducto";
+
 
 const CrearProducto = () => {
   // Estado del formulario
@@ -172,7 +173,7 @@ const CrearProducto = () => {
       {mensaje && (
         <div
           className={`alert mt-4 ${
-            mensaje.startsWith("✅") ? "alert-success" : "alert-danger"
+            mensaje.startsWith("") ? "alert-success" : "alert-danger"
           }`}
         >
           {mensaje}

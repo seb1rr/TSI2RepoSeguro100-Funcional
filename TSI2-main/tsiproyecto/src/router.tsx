@@ -3,16 +3,22 @@ import Layout from "./layouts/Layout";
 import Productos from "./components/Productos";
 import Login from "./components/Login";
 import Categorias from "./components/catalogo";
-import Registro from "./components/FormCrearCuenta";
-import LoginAdmin from "./components/LoginAdministradores";
+
 import NavbarAmin from "./layouts/LayoutAdmin";
-import VistaAdmin from "./components/VistaAdmin";
-import VistaProductosAdmin from "./components/AdminProductos";
-import FormEditarProducto from "./components/FormEditarProductos";
-import CrearProducto from "./components/CrearProducto";
+import VistaAdmin from "./components/Admin/VistaAdmin";
+import VistaProductosAdmin from "./components/ProductosAdmin/ListadoProductos";
+
 import Carrito from "./components/Carrito";
-import CrearAjuste from "./components/Ajuste";
-import VistaAjustes from "./components/ListaAjustes";
+
+import RegistrarEnvio from "./components/Pedidos/registrarEnvio";
+import RegistrarEntrega from "./components/Pedidos/registrarEntrega";
+import PedidosEntregados from "./components/Pedidos/entregados";
+import DetallePedido from "./components/Pedidos/detallepedido";
+import CrearProducto from "./components/ProductosAdmin/CrearProducto";
+import CrearAjuste from "./components/Ajustes/Ajuste";
+import VistaAjustes from "./components/Ajustes/ListaAjustes";
+import LoginAdmin from "./components/Admin/LoginAdministradores";
+import FormCrearCuenta from "./components/crearCuenta";
 
 
 export const router = createBrowserRouter([
@@ -22,7 +28,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/registro",
-    element: <Registro />,
+    element: <FormCrearCuenta />,
   },
   {
     path: "/admin/login",
@@ -70,7 +76,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "productos/editar/:codProducto",
-        element: <FormEditarProducto />,
+        element: <CrearProducto />,
       },
       {
         path: "productos/crear",
@@ -83,7 +89,24 @@ export const router = createBrowserRouter([
       {
         path: "ajustes",
         element: <VistaAjustes/>,
-      }
+      },
+      {
+        path: "envios/registrar",
+        element: <RegistrarEnvio/>,
+      },
+         {
+      path: "envios/entregar",
+      element: <RegistrarEntrega />,
+    },
+    {
+      path: "pedidos/entregados",
+      element: <PedidosEntregados/>,
+    },
+    {
+      path: "pedidos/detalle",
+      element: <DetallePedido/>,
+    }
+     
     ],
   },
 ]);

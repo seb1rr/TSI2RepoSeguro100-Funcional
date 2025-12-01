@@ -96,7 +96,7 @@ export default function NavBar() {
               </li>
             </ul>
 
-            {/* 🛒 CARRITO */}
+            {/*  CARRITO */}
             <div className="d-flex gap-2">
 
               <NavLink className="btn btn-dark" to="/app/carrito">

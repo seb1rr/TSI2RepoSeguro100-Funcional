@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getProductos } from "../services/AllProductos";
-import { deleteProducto } from "../services/BorrarProductos"; 
+import { getProductos } from "../../services/AllProductos";
+import { deleteProducto } from "../../services/BorrarProductos"; 
 import { useNavigate } from "react-router-dom";
 
 // Interfaz para tipar los productos
@@ -24,7 +24,7 @@ export default function VistaProductosAdmin() {
   const cargarProductos = async () => {
     try {
       const data = await getProductos();
-      console.log("📦 Productos recibidos desde el backend:", data);
+      console.log(" Productos recibidos desde el backend:", data);
       setProductos(data);
     } catch (err: any) {
       setError("Error al cargar productos");
@@ -45,7 +45,7 @@ export default function VistaProductosAdmin() {
     }
   };
 
-  // Hook para redireccionar al formulario de edición
+  //  redireccionar al formulario de edición
   const navigate = useNavigate();
   const handleEditar = (codProducto: string) => {
     navigate(`/admin/productos/editar/${codProducto}`);

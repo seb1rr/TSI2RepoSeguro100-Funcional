@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import React from "react";
 
 export default function NavbarAdmin() {
   const navigate = useNavigate();

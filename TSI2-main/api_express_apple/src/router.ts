@@ -41,7 +41,7 @@ router.get("/pedidos/entregados", getPedidosEntregados) //ENPOINT MOSTRAR PEDIDO
 router.get("/pedidos/informacion", getPedidoById) //ENPOINT MOSTRAR INFO DE PEDIDOS
 router.post("/pedido/crear", crearPedido) //ENPOINT CREAR PEDIDOS
 router.put("/pedidos/:cod_pedido", registrarEnvio) //ENPOINT REGISTRAR ENVIO
-router.put("/pedidos/:cod_pedido", registrarEntrega) //ENPOINT REGISTRAR ENTREGA
+router.put("/pedidos/registrarentrega/:cod_pedido", registrarEntrega) //ENPOINT REGISTRAR ENTREGA
 router.delete("/pedidos/:cod_pedido", borrarPedido) //ENPOINT BORRAR PEDIDO
 
 //ENPOINT DE CARRITO
