@@ -35,17 +35,17 @@ export default function RegistrarEntrega() {
     }
   };
 
-  if (loading) return <p className="text-center mt-5">Cargando pedidos...</p>;
+  if (loading) return <p className="text-center text-light mt-5">Cargando pedidos...</p>;
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 bg-dark text-light p-4 rounded shadow">
       <h2 className="mb-4">Registrar Entrega</h2>
 
       {pedidos.length === 0 ? (
         <p>No hay pedidos pendientes de entrega.</p>
       ) : (
         <div className="table-responsive">
-          <table className="table table-bordered text-center">
+          <table className="table table-bordered table-dark text-center">
             <thead className="table-light">
               <tr>
                 <th>Código</th>

@@ -24,14 +24,14 @@ export default function VistaPedidoDetalle() {
     cargarPedido();
   }, [cod_pedido]);
 
-  if (loading) return <p className="text-center mt-5">Cargando información del pedido...</p>;
-  if (!pedido) return <p className="text-center mt-5">Pedido no encontrado.</p>;
+  if (loading) return <p className="text-center text-light mt-5">Cargando información del pedido...</p>;
+  if (!pedido) return <p className="text-center text-light mt-5">Pedido no encontrado.</p>;
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 bg-dark text-light p-4 rounded shadow">
       <h2 className="mb-4">Detalle del Pedido: {pedido.cod_pedido}</h2>
 
-      <table className="table table-striped">
+      <table className="table table-striped table-dark">
         <tbody>
           <tr>
             <th>Comprobante</th>

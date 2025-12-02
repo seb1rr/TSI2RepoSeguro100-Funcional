@@ -103,24 +103,14 @@ export default function VistaAdmin() {
               <h5 className="card-title">Seguimiento</h5>
               <p className="card-text">Administra el estado y el historial de pedidos.</p>
               <div className="d-flex flex-column gap-2">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => navigate("/admin/seguimiento/crear")}
-                >
-                  Crear Seguimiento
-                </button>
+               
                 <button
                   className="btn btn-primary"
                   onClick={() => navigate("/admin/seguimiento/ver")}
                 >
                   Ver Seguimientos
                 </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => navigate("/admin/seguimiento/historial")}
-                >
-                  Ver Historial Pedido
-                </button>
+              
               </div>
             </div>
           </div>

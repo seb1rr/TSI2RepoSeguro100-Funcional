@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { getProductos } from "../../services/AllProductos";
 import { ajusteClient } from "../../services/AjusteServices";
 
-
 interface Producto {
   codProducto: string;
   nombre: string;
@@ -19,9 +18,11 @@ export default function CrearAjuste() {
 
   // Obtener cod_usuario desde localStorage
   const codUsuario = localStorage.getItem("cod_usuario");
-  if (!codUsuario) {
-    setMensaje("Debes iniciar sesión como administrador");
-  }
+  useEffect(() => {
+    if (!codUsuario) {
+      setMensaje("Debes iniciar sesión como administrador");
+    }
+  }, [codUsuario]);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -73,59 +74,62 @@ export default function CrearAjuste() {
 
   return (
     <div className="container mt-4">
-      <h2>Crear Ajuste de Stock</h2>
-      {mensaje && <div className="alert alert-info">{mensaje}</div>}
+      <div className="card bg-dark text-light shadow p-4">
+        <h2 className="mb-4">Crear Ajuste de Stock</h2>
 
-      <form onSubmit={handleCrearAjuste}>
-        <div className="mb-3">
-          <label className="form-label">Producto</label>
-          <select
-            className="form-select"
-            value={codProducto}
-            onChange={(e) => setCodProducto(e.target.value)}
-          >
-            {productos.map((p) => (
-              <option key={p.codProducto} value={p.codProducto}>{p.nombre}</option>
-            ))}
-          </select>
-        </div>
+        {mensaje && <div className="alert alert-info">{mensaje}</div>}
 
-        <div className="mb-3">
-          <label className="form-label">Tipo de ajuste</label>
-          <select
-            className="form-select"
-            value={tipoAjuste ? "true" : "false"}
-            onChange={(e) => setTipoAjuste(e.target.value === "true")}
-          >
-            <option value="true">Positivo (aumenta stock)</option>
-            <option value="false">Negativo (disminuye stock)</option>
-          </select>
-        </div>
+        <form onSubmit={handleCrearAjuste}>
+          <div className="mb-3">
+            <label className="form-label">Producto</label>
+            <select
+              className="form-select"
+              value={codProducto}
+              onChange={(e) => setCodProducto(e.target.value)}
+            >
+              {productos.map((p) => (
+                <option key={p.codProducto} value={p.codProducto}>{p.nombre}</option>
+              ))}
+            </select>
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">Cantidad</label>
-          <input
-            type="number"
-            min={1}
-            className="form-control"
-            value={cantidad}
-            onChange={(e) => setCantidad(Number(e.target.value))}
-          />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Tipo de ajuste</label>
+            <select
+              className="form-select"
+              value={tipoAjuste ? "true" : "false"}
+              onChange={(e) => setTipoAjuste(e.target.value === "true")}
+            >
+              <option value="true">Positivo (aumenta stock)</option>
+              <option value="false">Negativo (disminuye stock)</option>
+            </select>
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">Descripción</label>
-          <textarea
-            className="form-control"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-          />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Cantidad</label>
+            <input
+              type="number"
+              min={1}
+              className="form-control"
+              value={cantidad}
+              onChange={(e) => setCantidad(Number(e.target.value))}
+            />
+          </div>
 
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? "Creando..." : "Crear Ajuste"}
-        </button>
-      </form>
+          <div className="mb-3">
+            <label className="form-label">Descripción</label>
+            <textarea
+              className="form-control"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            {loading ? "Creando..." : "Crear Ajuste"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

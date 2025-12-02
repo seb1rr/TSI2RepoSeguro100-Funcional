@@ -136,21 +136,13 @@ export default function NavbarAdmin() {
                 Seguimiento
               </a>
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="seguimientoDropdown">
-                <li>
-                  <Link className="dropdown-item" to="seguimiento/crear">
-                    Crear Seguimiento
-                  </Link>
-                </li>
+               
                 <li>
                   <Link className="dropdown-item" to="seguimiento/ver">
                     Ver Seguimientos
                   </Link>
                 </li>
-                <li>
-                  <Link className="dropdown-item" to="seguimiento/historial">
-                    Ver Historial Pedido
-                  </Link>
-                </li>
+              
               </ul>
             </li>
 
@@ -170,3 +162,4 @@ export default function NavbarAdmin() {
     </nav>
   );
 }
+ 
