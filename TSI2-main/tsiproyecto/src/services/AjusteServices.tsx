@@ -1,7 +1,9 @@
+// src/services/AjusteServices.ts
 import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/ajustes";
 
+// Función para obtener token de localStorage
 const getToken = () => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Token no disponible");
@@ -9,23 +11,29 @@ const getToken = () => {
 };
 
 export const ajusteClient = {
+
   crearAjuste: async (
     cod_usuario: string,
     cod_producto: string,
     tipo_ajuste: boolean,
     cantidad: number,
     descripcion: string,
-    cod_pedido?: string
+    cod_pedido?: string,
+    fecha?: string
   ) => {
     const token = getToken();
     const response = await axios.post(
       API_URL,
-      { cod_usuario, cod_producto, tipo_ajuste, cantidad, descripcion, cod_pedido },
+      { cod_usuario, cod_producto, tipo_ajuste, cantidad, descripcion, cod_pedido, fecha },
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return response.data;
   },
 
+  /**
+   * Obtener todos los ajustes
+   * @returns Array de ajustes
+   */
   obtenerAjustes: async () => {
     const token = getToken();
     const response = await axios.get(`${API_URL}/ver`, {
@@ -34,6 +42,11 @@ export const ajusteClient = {
     return response.data.data.ajustes; // Devuelve solo el arreglo de ajustes
   },
 
+  /**
+   * Obtener un ajuste por su ID
+   * @param cod_ajuste Código del ajuste
+   * @returns Ajuste específico
+   */
   obtenerAjustePorId: async (cod_ajuste: string) => {
     const token = getToken();
     const response = await axios.get(`${API_URL}/${cod_ajuste}`, {
@@ -42,4 +55,3 @@ export const ajusteClient = {
     return response.data.data; // Devuelve el ajuste específico
   },
 };
-

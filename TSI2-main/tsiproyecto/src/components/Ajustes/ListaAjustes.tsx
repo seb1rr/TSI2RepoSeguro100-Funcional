@@ -76,7 +76,7 @@ export default function VistaAjustes() {
                     <td>{a.tipoAjuste ? "Positivo" : "Negativo"}</td>
                     <td>{a.cantidad}</td>
                     <td>{a.descripcion}</td>
-                    <td>{new Date(a.fecha).toLocaleString()}</td>
+                    <td>{new Date(a.fecha).toLocaleDateString()}</td> {/* Solo fecha */}
                   </tr>
                 ))}
               </tbody>
