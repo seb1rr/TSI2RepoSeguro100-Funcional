@@ -62,73 +62,91 @@ export const crearSeguimiento = async (req: Request, res: Response) => {
 };
 
 // OBTIENE TODOS LOS REGISTROS DE SEGUIMIENTOS
+// OBTIENE TODOS LOS REGISTROS DE SEGUIMIENTOS
 export const obtenerSeguimientos = async (req: Request, res: Response) => {
-    try {
-        const { page = 1, limit = 10, cod_pedido, estado, fecha_inicio, fecha_fin } = req.query;
+  try {
+    const { page = 1, limit = 10, cod_pedido, estado, fecha_inicio, fecha_fin } = req.query;
 
-        const whereClause: any = {};
+    const whereClause: any = {};
 
-        if (cod_pedido) {
-            whereClause.codPedido = cod_pedido;
-        }
+    // Filtrar por pedido si se recibe
+    if (cod_pedido) whereClause.cod_pedido = cod_pedido; // nombre real en DB
 
-        if (estado !== undefined) {
-            whereClause.estado = estado === 'true';
-        }
-
-        // FILTRO POR FECHA
-        if (fecha_inicio || fecha_fin) {
-            whereClause.fechaCambio = {};
-            if (fecha_inicio) {
-                whereClause.fechaCambio[Op.gte] = new Date(fecha_inicio as string);
-            }
-            if (fecha_fin) {
-                whereClause.fechaCambio[Op.lte] = new Date(fecha_fin as string);
-            }
-        }
-
-        const seguimientos = await Seguimiento.findAndCountAll({
-            where: whereClause,
-            include: [
-                {
-                    model: Pedido,
-                    attributes: ['codPedido'] 
-                }
-            ],
-            order: [['fechaCambio', 'DESC']],
-            limit: Number(limit),
-            offset: (Number(page) - 1) * Number(limit)
+    // Filtrar por estado como número
+    if (estado !== undefined) {
+      const estadoNum = Number(estado);
+      if (isNaN(estadoNum)) {
+        return res.status(400).json({
+          success: false,
+          message: "El estado debe ser un número válido",
         });
-
-        return res.json({
-            success: true,
-            data: {
-                seguimientos: seguimientos.rows,
-                total: seguimientos.count,
-                pagina: Number(page),
-                totalPaginas: Math.ceil(seguimientos.count / Number(limit))
-            }
-        });
-
-    } catch (error: any) {
-        console.error('Error al obtener seguimientos:', error);
-        return res.status(500).json({
-            success: false,
-            message: 'Error interno del servidor'
-        });
+      }
+      whereClause.estado = estadoNum;
     }
+
+    // Filtrar por fechas
+    if (fecha_inicio || fecha_fin) {
+      whereClause.fecha_cambio = {};
+      if (fecha_inicio && !isNaN(Date.parse(fecha_inicio as string))) {
+        whereClause.fecha_cambio[Op.gte] = new Date(fecha_inicio as string);
+      }
+      if (fecha_fin && !isNaN(Date.parse(fecha_fin as string))) {
+        whereClause.fecha_cambio[Op.lte] = new Date(fecha_fin as string);
+      }
+    }
+
+    // Consulta con join a Pedido usando nombres correctos
+    const seguimientos = await Seguimiento.findAndCountAll({
+      where: whereClause,
+      include: [
+        {
+          model: Pedido,
+          attributes: ['cod_pedido'], // nombre real en DB
+        },
+      ],
+      order: [['fecha_cambio', 'DESC']], // nombre real en DB
+      limit: Number(limit),
+      offset: (Number(page) - 1) * Number(limit),
+    });
+
+    return res.json({
+      success: true,
+      data: {
+        seguimientos: seguimientos.rows,
+        total: seguimientos.count,
+        pagina: Number(page),
+        totalPaginas: Math.ceil(seguimientos.count / Number(limit)),
+      },
+    });
+  } catch (error: any) {
+    console.error("Error interno en obtenerSeguimientos:", error);
+    return res.status(500).json({ success: false, message: "Error interno del servidor" });
+  }
 };
 
+
+
 // OBTENER EL SEGUIMIENTO POR NUMERO DE SEGUIMIENTO
+
+
 export const obtenerSeguimientoPorId = async (req: Request, res: Response) => {
     try {
         const { nro_seguimiento } = req.params;
 
+        // Validar que se haya enviado un número de seguimiento
+        if (!nro_seguimiento || typeof nro_seguimiento !== 'string') {
+            return res.status(400).json({
+                success: false,
+                message: 'El número de seguimiento es requerido y debe ser una cadena'
+            });
+        }
+
+        // Buscar seguimiento incluyendo el pedido
         const seguimiento = await Seguimiento.findByPk(nro_seguimiento, {
             include: [
                 {
                     model: Pedido,
-                    attributes: ['codPedido'] 
+                    attributes: ['codPedido']
                 }
             ]
         });
@@ -140,6 +158,7 @@ export const obtenerSeguimientoPorId = async (req: Request, res: Response) => {
             });
         }
 
+        // Retornar seguimiento
         return res.json({
             success: true,
             data: seguimiento

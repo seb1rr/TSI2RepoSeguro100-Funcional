@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { crearCliente } from "../services/CrearCuentaService";
 
+
 export default function FormCrearCuenta() {
   const [form, setForm] = useState({
     rut: "",

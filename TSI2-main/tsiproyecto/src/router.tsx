@@ -20,6 +20,9 @@ import VistaAjustes from "./components/Ajustes/ListaAjustes";
 import LoginAdmin from "./components/Admin/LoginAdministradores";
 import FormCrearCuenta from "./components/crearCuenta";
 
+import PedidosEnTransito from "./components/Seguimientos/verSeguimientos";
+
+
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +31,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/registro",
-    element: <FormCrearCuenta />,
+    element: <FormCrearCuenta/>,
   },
   {
     path: "/admin/login",
@@ -105,6 +108,11 @@ export const router = createBrowserRouter([
     {
       path: "pedidos/detalle",
       element: <DetallePedido/>,
+    },
+   
+    {
+      path: "seguimiento/ver",
+      element: <PedidosEnTransito/>,
     }
      
     ],

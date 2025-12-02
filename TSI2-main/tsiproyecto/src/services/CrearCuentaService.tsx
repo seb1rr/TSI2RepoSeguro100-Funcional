@@ -1,4 +1,4 @@
-
+// src/services/CrearCuentaService.ts
 import axios from "axios";
 
 export const crearCliente = async (cliente: {
@@ -10,7 +10,7 @@ export const crearCliente = async (cliente: {
   contraseña: string;
 }) => {
   const response = await axios.post(
-    "http://localhost:3000/api/clientes/crear",
+    "http://localhost:3000/api/clientes/crear", // apunta al backend
     cliente
   );
 

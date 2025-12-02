@@ -32,9 +32,31 @@ export default function LoginAdmin() {
     }
   };
 
+  const handleVolver = () => {
+    navigate("/login");
+  };
+
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "100%" }}>
+    <div className="position-relative min-vh-100 d-flex justify-content-center align-items-center">
+
+      {/* Fondo */}
+      <div
+        className="position-absolute top-0 start-0 w-100 h-100"
+        style={{
+          backgroundImage: "url('/images/fondo2.jpeg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+          zIndex: -2,
+        }}
+      />
+
+      {/* Overlay oscuro */}
+      <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-25" />
+
+      {/* Formulario */}
+      <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "100%", backgroundColor: "rgba(255,255,255,0.85)" }}>
         <div className="text-center mb-4">
           <img src="/images/apple.png" alt="Logo" className="img-fluid" style={{ maxHeight: "80px" }} />
           <h5 className="mt-3 fw-semibold">Accede como Administrador</h5>
@@ -70,6 +92,11 @@ export default function LoginAdmin() {
           {error && <div className="alert alert-danger">{error}</div>}
 
           <button type="submit" className="btn btn-primary w-100 mb-2">Ingresar</button>
+
+          {/* Botón volver al login normal */}
+          <button type="button" className="btn btn-secondary w-100" onClick={handleVolver}>
+            Volver al login normal
+          </button>
         </form>
       </div>
     </div>

@@ -1,5 +1,7 @@
+// src/views/RegistrarEnvio.tsx
 import { useEffect, useState } from "react";
 import { pedidosService } from "../../services/pedidosServices";
+import * as seguimientoService from "../../services/seguimientoServices"; 
 
 export default function RegistrarEnvio() {
   const [pedidos, setPedidos] = useState<any[]>([]);
@@ -12,7 +14,6 @@ export default function RegistrarEnvio() {
     const cargarPedidos = async () => {
       try {
         const data = await pedidosService.obtenerPedidosActivos();
-        // Filtrar solo los pedidos cuyo estado sea diferente de enviado
         const pedidosNoEnviados = data.filter((p: any) => p.estado !== "enviado");
         setPedidos(pedidosNoEnviados);
       } catch (error) {
@@ -33,10 +34,18 @@ export default function RegistrarEnvio() {
     }
 
     try {
+      // Registrar envío en pedidos
       await pedidosService.registrarEnvio(cod_pedido, empresa);
-      alert("Envío registrado correctamente");
 
-      // Actualizar listado eliminando el pedido enviado
+      // Crear seguimiento con estado 0 = No en tránsito
+      await seguimientoService.crearSeguimiento({
+        cod_pedido: cod_pedido,
+        estado: 0
+      });
+
+      alert("Envío registrado correctamente y seguimiento creado (no en tránsito)");
+
+      // Quitar pedido de la lista
       setPedidos((prev) => prev.filter((p) => p.cod_pedido !== cod_pedido));
     } catch (error) {
       console.error("Error registrando envío:", error);
@@ -66,7 +75,6 @@ export default function RegistrarEnvio() {
                 <th>Acción</th>
               </tr>
             </thead>
-
             <tbody>
               {pedidos.map((p) => (
                 <tr key={p.cod_pedido}>
@@ -88,9 +96,7 @@ export default function RegistrarEnvio() {
                     >
                       <option value="">Seleccione...</option>
                       {empresasEnvioOpciones.map((e) => (
-                        <option key={e} value={e}>
-                          {e}
-                        </option>
+                        <option key={e} value={e}>{e}</option>
                       ))}
                     </select>
                   </td>
@@ -98,7 +104,7 @@ export default function RegistrarEnvio() {
                     <button
                       className="btn btn-primary btn-sm"
                       onClick={() => registrar(p.cod_pedido)}
-                      disabled={p.estado === "enviado"} // no permitir registrar si ya está enviado
+                      disabled={p.estado === "enviado"}
                     >
                       Registrar Envío
                     </button>

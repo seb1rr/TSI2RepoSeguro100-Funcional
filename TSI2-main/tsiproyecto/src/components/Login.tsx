@@ -8,7 +8,6 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "a") {
@@ -48,8 +47,24 @@ export default function Login() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "100%" }}>
+    <div
+      className="d-flex justify-content-center align-items-center vh-100"
+      style={{
+        backgroundImage: "url('/images/fondo1.jpeg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div
+        className="card p-4 shadow"
+        style={{
+          maxWidth: "400px",
+          width: "100%",
+          backgroundColor: "rgba(255,255,255,0.25)", // fondo semi-transparente
+          backdropFilter: "blur(10px)", // efecto blur para legibilidad
+          borderRadius: "15px",
+        }}
+      >
         <div className="text-center mb-4">
           <img
             src="/images/apple.png"
@@ -57,16 +72,18 @@ export default function Login() {
             className="img-fluid"
             style={{ maxHeight: "80px" }}
           />
-          <h5 className="mt-3 fw-semibold">Accede a tu cuenta</h5>
+          <h5 className="mt-3 fw-semibold text-white">Accede a tu cuenta</h5>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="codUsuario" className="form-label">RUT</label>
+            <label htmlFor="codUsuario" className="form-label text-white">
+              RUT
+            </label>
             <input
               type="text"
               id="codUsuario"
-              className="form-control"
+              className="form-control bg-white bg-opacity-50"
               placeholder="12.345.678-9"
               value={codUsuario}
               onChange={(e) => setCodUsuario(e.target.value)}
@@ -75,11 +92,13 @@ export default function Login() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="contraseña" className="form-label">Contraseña</label>
+            <label htmlFor="contraseña" className="form-label text-white">
+              Contraseña
+            </label>
             <input
               type="password"
               id="contraseña"
-              className="form-control"
+              className="form-control bg-white bg-opacity-50"
               placeholder="••••••••"
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
@@ -95,7 +114,7 @@ export default function Login() {
 
           <button
             type="button"
-            className="btn btn-outline-secondary w-100"
+            className="btn btn-outline-light w-100"
             onClick={handleCrearCuenta}
           >
             Crear Cuenta

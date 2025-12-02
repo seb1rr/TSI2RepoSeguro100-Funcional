@@ -5,28 +5,24 @@ import { NavLink, useNavigate } from "react-router-dom";
 export default function NavBar() {
   const [categorias, setCategorias] = useState([]);
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
         const data = await getCategorias();
-        console.log("Categorías en NavBar:", data);
         setCategorias(data);
       } catch (err: any) {
         setError(err.message);
       }
     };
-
     fetchCategorias();
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("cod_usuario");
-
-    navigate("/login"); // Redirige al login
+    navigate("/login");
   };
 
   return (
@@ -36,9 +32,9 @@ export default function NavBar() {
         <div className="alert alert-warning">Cargando categorías...</div>
       )}
 
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light bg-opacity-75 backdrop-blur">
         <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/app">
+          <NavLink className="navbar-brand fw-bold" to="/app">
             apple.fr.accesories
           </NavLink>
 
@@ -56,7 +52,6 @@ export default function NavBar() {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              
               <li className="nav-item">
                 <NavLink className="nav-link active" to="/app">
                   Inicio
@@ -96,18 +91,14 @@ export default function NavBar() {
               </li>
             </ul>
 
-            {/*  CARRITO */}
             <div className="d-flex gap-2">
-
               <NavLink className="btn btn-dark" to="/app/carrito">
                 🛒 Carrito
               </NavLink>
 
-             
               <button className="btn btn-outline-danger" onClick={handleLogout}>
                 Cerrar Sesión
               </button>
-
             </div>
           </div>
         </div>
