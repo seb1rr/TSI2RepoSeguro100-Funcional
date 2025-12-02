@@ -1,25 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
 
+// Componente de barra de navegación para el administrador
+// Manejo los enlaces a las secciones principales de la app y el cierre de sesión
 export default function NavbarAdmin() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Uso useNavigate para redirigir al login al cerrar sesión
 
+  // Función para cerrar sesión
+  // Limpio los datos del usuario en localStorage y redirijo al login de administrador
   const handleLogout = () => {
-    // Limpiar datos de sesión
     localStorage.removeItem("token");
     localStorage.removeItem("tipo_usuario");
     localStorage.removeItem("cod_usuario");
-
-    // Redirigir a login admin
     navigate("/admin/login");
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
+        {/* Logo y enlace a la página principal del admin */}
         <Link className="navbar-brand" to="/admin">
           AppleStore Admin
         </Link>
 
+        {/* Botón de menú responsive */}
         <button
           className="navbar-toggler"
           type="button"
@@ -32,10 +35,12 @@ export default function NavbarAdmin() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
+        {/* Contenedor de los enlaces del navbar */}
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav ms-auto">
 
-            {/* Envíos */}
+            {/* Sección de Envíos */}
+            {/* Contiene enlaces para registrar envíos, registrar entregas y ver pedidos entregados */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -71,7 +76,8 @@ export default function NavbarAdmin() {
               </ul>
             </li>
 
-            {/* Productos */}
+            {/* Sección de Productos */}
+            {/* Permite crear productos nuevos y ver los existentes */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -97,7 +103,8 @@ export default function NavbarAdmin() {
               </ul>
             </li>
 
-            {/* Ajustes */}
+            {/* Sección de Ajustes */}
+            {/* Contiene enlaces para crear ajustes y ver los ajustes existentes */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -123,7 +130,8 @@ export default function NavbarAdmin() {
               </ul>
             </li>
 
-            {/* Seguimiento */}
+            {/* Sección de Seguimiento */}
+            {/* Permite ver todos los seguimientos registrados */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -136,17 +144,16 @@ export default function NavbarAdmin() {
                 Seguimiento
               </a>
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="seguimientoDropdown">
-               
                 <li>
                   <Link className="dropdown-item" to="seguimiento/ver">
                     Ver Seguimientos
                   </Link>
                 </li>
-              
               </ul>
             </li>
 
-            {/* Botón Cerrar Sesión */}
+            {/* Botón para cerrar sesión */}
+            {/* Llama a la función handleLogout al hacer clic */}
             <li className="nav-item">
               <button
                 className="btn btn-outline-light ms-3"
@@ -162,4 +169,3 @@ export default function NavbarAdmin() {
     </nav>
   );
 }
- 

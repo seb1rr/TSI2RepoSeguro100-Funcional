@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUsuario } from "../services/LoginServices";
 
+// Componente de login de usuario
 export default function Login() {
+  // Estados para almacenar RUT, contraseña y mensajes de error
   const [codUsuario, setCodUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [error, setError] = useState("");
+
+  // Hook de navegación para redirigir al usuario
   const navigate = useNavigate();
 
+  // useEffect para agregar un atajo de teclado (Ctrl + Alt + A) para ir al login de admin
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "a") {
@@ -16,22 +21,27 @@ export default function Login() {
     };
 
     window.addEventListener("keydown", handleKeyDown);
+    // Limpieza del event listener al desmontar el componente
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [navigate]);
 
+  // Función para manejar el envío del formulario de login
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
+      // Llamada al servicio de login que retorna un token
       const token = await loginUsuario(codUsuario, contraseña);
       if (!token || typeof token !== "string") {
         throw new Error("Token inválido");
       }
 
+      // Guardar token en localStorage y redirigir a la app
       localStorage.setItem("token", token);
       navigate("/app");
     } catch (err: any) {
+      // Manejo de errores provenientes del backend o desconocidos
       if (err.response?.data?.error) {
         setError(err.response.data.error);
       } else if (err instanceof Error) {
@@ -42,6 +52,7 @@ export default function Login() {
     }
   };
 
+  // Función para redirigir a la página de creación de cuenta
   const handleCrearCuenta = () => {
     navigate("/registro");
   };
@@ -55,16 +66,18 @@ export default function Login() {
         backgroundPosition: "center",
       }}
     >
+      {/* Tarjeta de login con efecto blur y fondo semi-transparente */}
       <div
         className="card p-4 shadow"
         style={{
           maxWidth: "400px",
           width: "100%",
-          backgroundColor: "rgba(255,255,255,0.25)", // fondo semi-transparente
-          backdropFilter: "blur(10px)", // efecto blur para legibilidad
+          backgroundColor: "rgba(255,255,255,0.25)",
+          backdropFilter: "blur(10px)",
           borderRadius: "15px",
         }}
       >
+        {/* Logo e instructivo */}
         <div className="text-center mb-4">
           <img
             src="/images/apple.png"
@@ -75,6 +88,7 @@ export default function Login() {
           <h5 className="mt-3 fw-semibold text-white">Accede a tu cuenta</h5>
         </div>
 
+        {/* Formulario de login */}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="codUsuario" className="form-label text-white">
@@ -106,12 +120,15 @@ export default function Login() {
             />
           </div>
 
+          {/* Mostrar mensaje de error si existe */}
           {error && <div className="alert alert-danger">{error}</div>}
 
+          {/* Botón de login */}
           <button type="submit" className="btn btn-primary w-100 mb-2">
             Ingresar
           </button>
 
+          {/* Botón para redirigir a registro */}
           <button
             type="button"
             className="btn btn-outline-light w-100"

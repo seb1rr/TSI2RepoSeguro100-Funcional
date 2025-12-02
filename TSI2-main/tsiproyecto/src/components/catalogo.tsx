@@ -12,11 +12,16 @@ interface Producto {
 }
 
 export default function Catalogo() {
+  // Lista de productos
   const [productos, setProductos] = useState<Producto[]>([]);
+  // Estado de carga
   const [loading, setLoading] = useState(true);
+  // Estado de error
   const [error, setError] = useState("");
+  // Para manejar el botón de "Agregando..."
   const [agregando, setAgregando] = useState<string | null>(null);
 
+  // Cargar productos desde el servicio al montar el componente
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -34,6 +39,7 @@ export default function Catalogo() {
     fetchProductos();
   }, []);
 
+  // Función para agregar un producto al carrito
   const handleAgregarAlCarrito = async (producto: Producto) => {
     if (!producto.codProducto || producto.stock <= 0) return;
 
@@ -47,6 +53,7 @@ export default function Catalogo() {
     }
   };
 
+  // Mensajes de carga y error
   if (loading) return <div className="container mt-5 text-center"><p>Cargando productos...</p></div>;
   if (error) return <div className="container mt-5"><div className="alert alert-danger">{error}</div></div>;
   if (productos.length === 0) return <div className="container mt-5 text-center"><p>No hay productos disponibles</p></div>;
@@ -60,7 +67,7 @@ export default function Catalogo() {
           <div className="col" key={producto.codProducto}>
             <div className="card h-100 shadow-lg border-0 rounded-3 producto-card">
 
-              {/* Imagen */}
+              {/* Imagen del producto */}
               {producto.imagen ? (
                 <div className="img-container">
                   <img
@@ -77,21 +84,16 @@ export default function Catalogo() {
 
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title fw-bold">{producto.nombre}</h5>
-
                 <p className="card-text text-muted text-truncate">{producto.descripcion}</p>
-
                 <p className="fw-semibold">
                   Precio: <span className="text-success">${producto.precioUnitario.toLocaleString()}</span>
                 </p>
-
                 <p className={producto.stock === 0 ? "text-danger" : "text-secondary"}>
                   {producto.stock === 0 ? "Agotado" : `Stock disponible: ${producto.stock}`}
                 </p>
 
                 <button
-                  className={`btn btn-lg mt-auto ${
-                    producto.stock === 0 ? "btn-secondary" : "btn-primary"
-                  }`}
+                  className={`btn btn-lg mt-auto ${producto.stock === 0 ? "btn-secondary" : "btn-primary"}`}
                   onClick={() => handleAgregarAlCarrito(producto)}
                   disabled={agregando === producto.codProducto || producto.stock <= 0}
                 >
@@ -103,18 +105,16 @@ export default function Catalogo() {
         ))}
       </div>
 
-      {/* Estilos mejorados */}
+      {/* Estilos internos para mejorar visual */}
       <style>
         {`
           .producto-card {
             transition: transform 0.25s ease, box-shadow 0.25s ease;
           }
-
           .producto-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 12px 25px rgba(0,0,0,0.12);
           }
-
           .img-container {
             width: 100%;
             height: 220px;
@@ -122,7 +122,6 @@ export default function Catalogo() {
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
           }
-
           .img-container img {
             width: 100%;
             height: 100%;
@@ -130,7 +129,6 @@ export default function Catalogo() {
             background: #f8f9fa;
             padding: 10px;
           }
-
           .no-image {
             height: 220px;
             background: #efefef;

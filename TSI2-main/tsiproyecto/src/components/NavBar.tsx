@@ -52,12 +52,14 @@ export default function NavBar() {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              {/* Inicio */}
               <li className="nav-item">
                 <NavLink className="nav-link active" to="/app">
                   Inicio
                 </NavLink>
               </li>
 
+              {/* Accesorios Apple */}
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -84,13 +86,27 @@ export default function NavBar() {
                 </ul>
               </li>
 
+              {/* Historial de Pedidos */}
               <li className="nav-item">
-                <NavLink className="nav-link" to="/app/contacto">
-                  Contacto
+                <NavLink className="nav-link" to="mispedidos">
+                  Mi Historial de Pedidos
                 </NavLink>
+              </li>
+
+              {/* Instagram */}
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href="https://www.instagram.com/apple.fr.accesories/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram
+                </a>
               </li>
             </ul>
 
+            {/* Botones derecho */}
             <div className="d-flex gap-2">
               <NavLink className="btn btn-dark" to="/app/carrito">
                 🛒 Carrito

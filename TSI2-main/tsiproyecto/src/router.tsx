@@ -21,6 +21,7 @@ import LoginAdmin from "./components/Admin/LoginAdministradores";
 import FormCrearCuenta from "./components/crearCuenta";
 
 import PedidosEnTransito from "./components/Seguimientos/verSeguimientos";
+import MisPedidos from "./components/historialdepedidos";
 
 
 
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: "categoria/:cod_categoria",
         element: <Productos />,
+      },
+      {
+        path: "mispedidos",
+        element: <MisPedidos/>,
       },
 
      
